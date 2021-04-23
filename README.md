@@ -1,0 +1,2 @@
+# Nero
+New programming language aimed at children and teens from 8th to 12 grade. The simple PL will be focused on mathematical functions and statements. They will be able to solve linear and quadratic equations with just a simple statement, and other things like calculating area, circumference, volume among other things. They will also be able to define variable and perform primitive calculations with them as well as print out the results in the command window.
