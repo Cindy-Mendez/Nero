@@ -4,6 +4,7 @@ int yylex();
 #include <stdio.h>     /* C declarations used in actions */
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 int currentVarCounter;
 char varNames[50][50];
 float varValues[50];
@@ -23,13 +24,16 @@ int getVarIndex(char* aVar);
 %start LINE
 %token PRINT_TOKEN
 %token EXIT_TOKEN
+%token T_AREA_TOKEN
+%token S_ROOT_TOKEN
 %token <num> INT_TOKEN
 %token <fl> FLOAT_TOKEN
 %token <myString> VAR_TOKEN
 %token <myType> DATA_TYPE_TOKEN
 
-%left  '*' '/'
 %left  '+' '-'
+%left  '*' '/'
+%left  '^'
 
 %type <myString> ASSIGNMENT LINE
 %type <fl> EXP TERM 
@@ -41,9 +45,9 @@ int getVarIndex(char* aVar);
 
 LINE    : ASSIGNMENT ';'			{;}
 		| EXIT_TOKEN ';'			{exit(EXIT_SUCCESS);}
-		| PRINT_TOKEN EXP ';'		{printf("Printing %f\n", $2);}
+		| PRINT_TOKEN EXP ';'		{printf("printing %f\n", $2);}
 		| LINE ASSIGNMENT ';'		{;}
-		| LINE PRINT_TOKEN EXP ';'	{printf("Printing %f\n", $3);}
+		| LINE PRINT_TOKEN EXP ';'	{printf("printing %f\n", $3);}
 		| LINE EXIT_TOKEN ';'		{exit(EXIT_SUCCESS);}
         ;
 
@@ -75,14 +79,17 @@ ASSIGNMENT : DATA_TYPE_TOKEN VAR_TOKEN '=' EXP          {
 			           											yyerror("Var hasn't been initialized!");
 			           											exit(0);
 			           										}
-			           									} 
+			           									}
 		   ;
-EXP    	: TERM                  {$$ = $1;}
-       	| EXP '+' TERM          {$$ = $1 + $3;}
-       	| EXP '-' TERM          {$$ = $1 - $3;}
-	    | EXP '*' TERM          {$$ = $1 * $3;}
-	    | EXP '/' TERM          {$$ = $1 / $3;} 
-	    | '(' EXP ')'           {$$ = $2;} 
+EXP    	: TERM                  					{$$ = $1;}
+       	| EXP '+' EXP          						{$$ = $1 + $3;}
+       	| EXP '-' EXP          						{$$ = $1 - $3;}
+	    | EXP '*' EXP          						{$$ = $1 * $3;}
+	    | EXP '/' EXP          						{$$ = $1 / $3;} 
+	    | EXP '^' EXP								{$$ = pow($1, $3);} 
+	    | '(' EXP ')'           					{$$ = $2;} 
+	    | T_AREA_TOKEN '(' EXP ',' EXP ')'  		{$$ = ($3 * $5) / 2.0;}
+	    | S_ROOT_TOKEN '(' EXP ')'  				{$$ = sqrt($3);}
        	;
 
 TERM   	: INT_TOKEN                	{$$ = (float) $1;}

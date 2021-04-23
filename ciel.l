@@ -8,12 +8,14 @@ int yylex();
 %%
 "print"				   								{return PRINT_TOKEN;}
 "exit"				   								{return EXIT_TOKEN;}
+"calc_tri_area"										{return T_AREA_TOKEN;}
+"square_root"										{return S_ROOT_TOKEN;}
 int|float											{yylval.myType = strdup(yytext); return DATA_TYPE_TOKEN;}
 [a-zA-Z]*			   								{yylval.myString = strdup(yytext); return VAR_TOKEN;}
 [0-9]+												{yylval.num = atoi(strdup(yytext)); return INT_TOKEN;}
 [0-9]+[.][0-9]+						 				{yylval.fl = atof(strdup(yytext)); return FLOAT_TOKEN;}
 [ \t\n]                								;
-[-+*/=;()]           	   								{return yytext[0];}
+[-+*/=;(),^]           	   							{return yytext[0];}
 .                      								{yyerror ("unexpected character");}
 
 %%
