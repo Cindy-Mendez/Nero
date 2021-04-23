@@ -36,7 +36,7 @@ int getVarIndex(char* aVar);
 %left  '^'
 
 %type <myString> ASSIGNMENT LINE
-%type <fl> EXP TERM 
+%type <fl> EXPR TERM 
 
 %%
 
@@ -45,13 +45,13 @@ int getVarIndex(char* aVar);
 
 LINE    : ASSIGNMENT ';'			{;}
 		| EXIT_TOKEN ';'			{exit(EXIT_SUCCESS);}
-		| PRINT_TOKEN EXP ';'		{printf("printing %f\n", $2);}
+		| PRINT_TOKEN EXPR ';'		{printf("printing %f\n", $2);}
 		| LINE ASSIGNMENT ';'		{;}
-		| LINE PRINT_TOKEN EXP ';'	{printf("printing %f\n", $3);}
+		| LINE PRINT_TOKEN EXPR ';'	{printf("printing %f\n", $3);}
 		| LINE EXIT_TOKEN ';'		{exit(EXIT_SUCCESS);}
         ;
 
-ASSIGNMENT : DATA_TYPE_TOKEN VAR_TOKEN '=' EXP          {
+ASSIGNMENT : DATA_TYPE_TOKEN VAR_TOKEN '=' EXPR          {
 														    //Using the strcpy function to copy the
 														    //value of VAR_TOKEN in the varNames array
 															strcpy(varNames[currentVarCounter], $2);
@@ -65,7 +65,7 @@ ASSIGNMENT : DATA_TYPE_TOKEN VAR_TOKEN '=' EXP          {
                                      						currentVarCounter++;
                                      					} 
            
-	        | VAR_TOKEN '=' EXP                     	{
+	        | VAR_TOKEN '=' EXPR                     	{
 	        												//Looks for the index where the var is stored
 	           												int varIndex = getVarIndex($1);
 	           												//If its found then the value of the var gets updated
@@ -81,15 +81,15 @@ ASSIGNMENT : DATA_TYPE_TOKEN VAR_TOKEN '=' EXP          {
 			           										}
 			           									}
 		   ;
-EXP    	: TERM                  					{$$ = $1;}
-       	| EXP '+' EXP          						{$$ = $1 + $3;}
-       	| EXP '-' EXP          						{$$ = $1 - $3;}
-	    | EXP '*' EXP          						{$$ = $1 * $3;}
-	    | EXP '/' EXP          						{$$ = $1 / $3;} 
-	    | EXP '^' EXP								{$$ = pow($1, $3);} 
-	    | '(' EXP ')'           					{$$ = $2;} 
-	    | T_AREA_TOKEN '(' EXP ',' EXP ')'  		{$$ = ($3 * $5) / 2.0;}
-	    | S_ROOT_TOKEN '(' EXP ')'  				{$$ = sqrt($3);}
+EXPR   	: TERM                  					{$$ = $1;}
+       	| EXPR '+' EXPR          					{$$ = $1 + $3;}
+       	| EXPR '-' EXPR          					{$$ = $1 - $3;}
+	    | EXPR '*' EXPR          					{$$ = $1 * $3;}
+	    | EXPR '/' EXPR          					{$$ = $1 / $3;} 
+	    | EXPR '^' EXPR								{$$ = pow($1, $3);} 
+	    | '(' EXPR ')'           					{$$ = $2;} 
+	    | T_AREA_TOKEN '(' EXPR ',' EXPR ')'  		{$$ = ($3 * $5) / 2.0;}
+	    | S_ROOT_TOKEN '(' EXPR ')'  				{$$ = sqrt($3);}
        	;
 
 TERM   	: INT_TOKEN                	{$$ = (float) $1;}
