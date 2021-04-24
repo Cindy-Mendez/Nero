@@ -11,6 +11,7 @@ float varValues[50];
 char varTypes[50][50];
 float findValue(char* myString);
 int getVarIndex(char* aVar);
+float pi = 3.14159265359;
 %}
 
 /* Yacc/Tokens definitions */
@@ -25,7 +26,10 @@ int getVarIndex(char* aVar);
 %token PRINT_TOKEN
 %token EXIT_TOKEN
 %token T_AREA_TOKEN
+%token R_AREA_TOKEN
+%token C_AREA_TOKEN
 %token S_ROOT_TOKEN
+%token V_RECTANGLE_TOKEN
 %token <num> INT_TOKEN
 %token <fl> FLOAT_TOKEN
 %token <myString> VAR_TOKEN
@@ -81,26 +85,32 @@ ASSIGNMENT : DATA_TYPE_TOKEN VAR_TOKEN '=' EXPR          {
 			           										}
 			           									}
 		   ;
-EXPR   	: TERM                  					{$$ = $1;}
-       	| EXPR '+' EXPR          					{$$ = $1 + $3;}
-       	| EXPR '-' EXPR          					{$$ = $1 - $3;}
-	    | EXPR '*' EXPR          					{$$ = $1 * $3;}
-	    | EXPR '/' EXPR          					{$$ = $1 / $3;} 
-	    | EXPR '^' EXPR								{$$ = pow($1, $3);} 
-	    | '(' EXPR ')'           					{$$ = $2;} 
-	    | T_AREA_TOKEN '(' EXPR ',' EXPR ')'  		{$$ = ($3 * $5) / 2.0;}
-	    | S_ROOT_TOKEN '(' EXPR ')'  				{$$ = sqrt($3);}
+EXPR   	: TERM                  							{$$ = $1;}
+       	| EXPR '+' EXPR          							{$$ = $1 + $3;}
+       	| EXPR '-' EXPR          							{$$ = $1 - $3;}
+	    | EXPR '*' EXPR          							{$$ = $1 * $3;}
+	    | EXPR '/' EXPR          							{$$ = $1 / $3;} 
+	    | EXPR '^' EXPR										{$$ = pow($1, $3);} 
+	    | '(' EXPR ')'           							{$$ = $2;} 
+	    | T_AREA_TOKEN '(' EXPR ',' EXPR ')'  				{$$ = ($3 * $5) / 2.0;}
+	    | R_AREA_TOKEN '(' EXPR	',' EXPR ')'				{$$ = $3 * $5;}
+	    | C_AREA_TOKEN '(' EXPR	')'							{$$ = pi * pow($3, 2.0);}
+	    | S_ROOT_TOKEN '(' EXPR ')'  						{$$ = sqrt($3);}
+	    | V_RECTANGLE_TOKEN '(' EXPR ',' EXPR ',' EXPR ')'	{$$ = $3 * $5 * $7;}
+
        	;
 
 TERM   	: INT_TOKEN                	{$$ = (float) $1;}
 		| VAR_TOKEN					{	
 										float varValue = findValue($1);
-								 		if(varValue == -1){
+								 		if(varValue == -1)
+								 		{
 										 	yyerror("Var doesn't exist!");
 		           							exit(0);
 								 		}
 									 	else
-									 		$$ = varValue;}
+									 		$$ = varValue;
+									 }
 	    | FLOAT_TOKEN               {$$ = $1;}						
         ;
 
@@ -111,7 +121,8 @@ TERM   	: INT_TOKEN                	{$$ = (float) $1;}
 float findValue(char* aVar)
 {
 	int i;
-	for(i=0; i<50; i++) {
+	for(i=0; i<50; i++) 
+	{
 		if(strcmp(varNames[i], aVar) == 0)
 		{
 			return varValues[i];
@@ -125,7 +136,8 @@ float findValue(char* aVar)
 int getVarIndex(char* aVar)
 {
 	int i;
-	for(i=0; i<50; i++) {
+	for(i=0; i<50; i++) 
+	{
 		if(strcmp(varNames[i], aVar) == 0)
 		{
 			return i;
@@ -135,11 +147,31 @@ int getVarIndex(char* aVar)
 }
 
 //Main
-int main (void) {
+int main (void) 
+{
 
 	currentVarCounter = 0;
 	return yyparse ( );
 }
+
+void find_roots(float a, float b, float c) {
+    float discriminant = b * b - 4 * a * c;
+    // condition for real and different roots
+    if (discriminant > 0) {
+        float root1 = (-b + sqrt(discriminant)) / (2 * a);
+        float root2 = (-b - sqrt(discriminant)) / (2 * a);
+        printf("root1 = %.2lf and root2 = %.2lf", root1, root2);
+    }
+    // condition for real and equal roots
+    else if (discriminant == 0) {
+        float root1 = root2 = -b / (2 * a);
+        printf("root1 = root2 = %.2lf;", root1);
+    }
+    //roots not real
+    else {
+        printf("Roots are not real");
+    }
+} 
 
 //Function to throw errors
 void yyerror (char *s) {fprintf (stderr, "%s\n", s);} 

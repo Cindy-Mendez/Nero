@@ -9,7 +9,10 @@ int yylex();
 "print"				   								{return PRINT_TOKEN;}
 "exit"				   								{return EXIT_TOKEN;}
 "calc_tri_area"										{return T_AREA_TOKEN;}
+"calc_rect_area"									{return R_AREA_TOKEN;}
+"calc_circ_area"									{return C_AREA_TOKEN;}
 "square_root"										{return S_ROOT_TOKEN;}
+"calc_vol_rect"										{return V_RECTANGLE_TOKEN;}
 int|float											{yylval.myType = strdup(yytext); return DATA_TYPE_TOKEN;}
 [a-zA-Z]*			   								{yylval.myString = strdup(yytext); return VAR_TOKEN;}
 [0-9]+												{yylval.num = atoi(strdup(yytext)); return INT_TOKEN;}
