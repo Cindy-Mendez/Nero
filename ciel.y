@@ -28,8 +28,16 @@ float pi = 3.14159265359;
 %token T_AREA_TOKEN
 %token R_AREA_TOKEN
 %token C_AREA_TOKEN
+%token C_CIRC_TOKEN
 %token S_ROOT_TOKEN
-%token V_RECTANGLE_TOKEN
+%token R_VOL_TOKEN
+%token S_VOL_TOKEN
+%token C_VOL_TOKEN
+%token SIN_TOKEN
+%token COS_TOKEN
+%token TAN_TOKEN
+%token FORCE_TOKEN
+%token VOLTAGE_TOKEN
 %token <num> INT_TOKEN
 %token <fl> FLOAT_TOKEN
 %token <myString> VAR_TOKEN
@@ -95,8 +103,16 @@ EXPR   	: TERM                  							{$$ = $1;}
 	    | T_AREA_TOKEN '(' EXPR ',' EXPR ')'  				{$$ = ($3 * $5) / 2.0;}
 	    | R_AREA_TOKEN '(' EXPR	',' EXPR ')'				{$$ = $3 * $5;}
 	    | C_AREA_TOKEN '(' EXPR	')'							{$$ = pi * pow($3, 2.0);}
+		| C_CIRC_TOKEN '(' EXPR ')'							{$$ = 2.0 * pi * $3;}
 	    | S_ROOT_TOKEN '(' EXPR ')'  						{$$ = sqrt($3);}
-	    | V_RECTANGLE_TOKEN '(' EXPR ',' EXPR ',' EXPR ')'	{$$ = $3 * $5 * $7;}
+		| R_VOL_TOKEN '(' EXPR ',' EXPR ',' EXPR ')'		{$$ = $3 * $5 * $7;}
+		| S_VOL_TOKEN '(' EXPR ')'							{$$ = (4/3) * pi * pow($3, 3.0);}
+		| C_VOL_TOKEN '(' EXPR ',' EXPR ')'					{$$ = pi * pow($3, 2.0) * $5;}
+		| SIN_TOKEN '(' EXPR ')'							{$$ = sin($3);}
+		| COS_TOKEN '(' EXPR ')'							{$$ = cos($3);}
+		| TAN_TOKEN '(' EXPR ')'							{$$ = tan($3);}
+		| FORCE_TOKEN '(' EXPR ',' EXPR ')'					{$$ = $3 * $5;}
+		| VOLTAGE_TOKEN '(' EXPR ',' EXPR ')'				{$$ = $3 * $5;}
 
        	;
 
