@@ -32,4 +32,7 @@ int|float											{yylval.myType = strdup(yytext); return DATA_TYPE_TOKEN;}
 .                      								{yyerror ("unexpected character");}
 
 %%
-int yywrap (void) {return 1;}
+int yywrap (void) 
+{
+	return 1;
+}

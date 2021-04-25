@@ -17,10 +17,15 @@ float pi = 3.14159265359;
 
 /* Yacc/Tokens definitions */
 %union {
+			//digits: 0, 3, 5, 7....
 			int num; 
+			//decimales: 3.23, 1.25, 5.2
 			float fl; 
+			//var names: x, y, variable...
 			char* myString; 
+			//varTypes: int o float
 			char* myType;
+			//stringsToPrint "hello world", "my name is Cindy"...
 			char* stringText;
 		} 
 
@@ -53,7 +58,7 @@ float pi = 3.14159265359;
 %left  '^'
 
 //Types of non-terminal Tokens
-%type <myString> ASSIGNMENT STATEMENT
+%type <myString> STATEMENT ASSIGNMENT 
 %type <fl> EXPR TERM 
 
 %%
@@ -62,12 +67,12 @@ float pi = 3.14159265359;
 /* descriptions of expected inputs     corresponding actions (in C) */
 
 STATEMENT    	: ASSIGNMENT ';'								{;}
-				| EXIT_TOKEN ';'								{exit(EXIT_SUCCESS);}
+				| EXIT_TOKEN ';'								{exit(0);}
 				| PRINT_TOKEN EXPR ';'							{printf("%.2f\n", $2);}
 				| PRINT_TOKEN STRING_TOKEN ';'					{printf("%s\n", $2);}
 				| EXPR ';'										{printf("%.2f\n", $1);}
 				| STATEMENT ASSIGNMENT ';'						{;}
-				| STATEMENT EXIT_TOKEN ';'						{exit(EXIT_SUCCESS);}
+				| STATEMENT EXIT_TOKEN ';'						{exit(0);}
 				| STATEMENT PRINT_TOKEN EXPR ';'				{printf("%.2f\n", $3);}
 				| STATEMENT PRINT_TOKEN STRING_TOKEN ';'		{printf("%s\n", $3);}
 				| STATEMENT EXPR ';' 							{printf("%.2f\n", $2);}
@@ -193,12 +198,16 @@ float findRoots(float a, float b, float c) {
 		return 0;
     }
 } 
+
+//Function to throw errors
+void yyerror (char *s) 
+{
+	fprintf (stderr, "%s\n", s);
+} 
+
 //Main
 int main (void) 
 {
 	currentVarCounter = 0;
 	return yyparse ( );
 }
-
-//Function to throw errors
-void yyerror (char *s) {fprintf (stderr, "%s\n", s);} 
