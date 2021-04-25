@@ -10,7 +10,6 @@ char varNames[50][50];
 float varValues[50];
 char varTypes[50][50];
 
-float findValue(char* myString);
 int getVarIndex(char* aVar);
 float findRoots(float a, float b, float c);
 float pi = 3.14159265359;
@@ -75,32 +74,41 @@ STATEMENT    	: ASSIGNMENT ';'								{;}
 		        ;
 
 ASSIGNMENT : DATA_TYPE_TOKEN VAR_TOKEN '=' EXPR          {
-														    //Using the strcpy function to copy the
-														    //value of VAR_TOKEN in the varNames array
-															strcpy(varNames[currentVarCounter], $2);
-															//Copying the value of exp into our
-															//varValues array
-           	                         						varValues[currentVarCounter] = $4;
-           	                         						//Using the strcpy function to copy the
-														    //value of DATA_TYPE in the varTypes array
-           	                         						strcpy(varTypes[currentVarCounter], $1);
-           	                         						//Adding one to our var counter
-                                     						currentVarCounter++;
+															int varIndex = getVarIndex($2);
+															if(varIndex == -1)
+															{
+																//Using the strcpy function to copy the
+															    //value of VAR_TOKEN in the varNames array
+																strcpy(varNames[currentVarCounter], $2);
+																//Copying the value of exp into our
+																//varValues array
+	           	                         						varValues[currentVarCounter] = $4;
+	           	                         						//Using the strcpy function to copy the
+															    //value of DATA_TYPE in the varTypes array
+	           	                         						strcpy(varTypes[currentVarCounter], $1);
+	           	                         						//Adding one to our var counter
+	                                     						currentVarCounter++;
+															}
+															else
+															{
+																yyerror("Var already exists!");
+			           											exit(0);
+															}												    
                                      					} 
            
 	        | VAR_TOKEN '=' EXPR                     	{
 	        												//Looks for the index where the var is stored
 	           												int varIndex = getVarIndex($1);
-	           												//If its found then the value of the var gets updated
-			           										if(varIndex != -1)
-			           										{
-			           											varValues[varIndex] = $3;
-			           										}
-			           										//If its not found then it throws an error
-			           										else
+	           												//If its not found then it throws an error
+			           										if(varIndex == -1)
 			           										{
 			           											yyerror("Var hasn't been initialized!");
 			           											exit(0);
+			           										}
+			           										//If its found then the value of the var gets updated
+			           										else
+			           										{
+			           											varValues[varIndex] = $3;
 			           										}
 			           									}
 		   ;
@@ -130,34 +138,20 @@ EXPR   	: TERM                  							{$$ = $1;}
 
 TERM   	: INT_TOKEN                	{$$ = (float) $1;}
 		| VAR_TOKEN					{	
-										float varValue = findValue($1);
-								 		if(varValue == -1)
+										int varIndex = getVarIndex($1);
+								 		if(varIndex == -1)
 								 		{
 										 	yyerror("Var doesn't exist!");
 		           							exit(0);
 								 		}
 									 	else
-									 		$$ = varValue;
+									 		$$ = varValues[varIndex];
 									 }
 	    | FLOAT_TOKEN               {$$ = $1;}						
         ;
 
 %%                     
 /* C code */
-
-//Function to find the value of a variable
-float findValue(char* aVar)
-{
-	int i;
-	for(i=0; i<50; i++) 
-	{
-		if(strcmp(varNames[i], aVar) == 0)
-		{
-			return varValues[i];
-		}
-	}
-	return -1;
-}
 
 //Function to get the index of where a variable is stored in the
 //varNames array
