@@ -36,6 +36,7 @@ float pi = 3.14159265359;
 %token SIN_TOKEN
 %token COS_TOKEN
 %token TAN_TOKEN
+%token ROOTS_TOKEN
 %token FORCE_TOKEN
 %token VOLTAGE_TOKEN
 %token <num> INT_TOKEN
@@ -111,6 +112,7 @@ EXPR   	: TERM                  							{$$ = $1;}
 		| SIN_TOKEN '(' EXPR ')'							{$$ = sin($3);}
 		| COS_TOKEN '(' EXPR ')'							{$$ = cos($3);}
 		| TAN_TOKEN '(' EXPR ')'							{$$ = tan($3);}
+		| ROOTS_TOKEN '(' EXPR ',' EXPR ',' EXPR ')'		{$$ = find_roots($3, $5, $7);}
 		| FORCE_TOKEN '(' EXPR ',' EXPR ')'					{$$ = $3 * $5;}
 		| VOLTAGE_TOKEN '(' EXPR ',' EXPR ')'				{$$ = $3 * $5;}
 
@@ -170,22 +172,26 @@ int main (void)
 	return yyparse ( );
 }
 
-void find_roots(float a, float b, float c) {
+//Function to calculate the quadratic roots
+float find_roots(float a, float b, float c) {
     float discriminant = b * b - 4 * a * c;
     // condition for real and different roots
     if (discriminant > 0) {
         float root1 = (-b + sqrt(discriminant)) / (2 * a);
         float root2 = (-b - sqrt(discriminant)) / (2 * a);
         printf("root1 = %.2lf and root2 = %.2lf", root1, root2);
+		return 2;
     }
     // condition for real and equal roots
     else if (discriminant == 0) {
         float root1 = root2 = -b / (2 * a);
         printf("root1 = root2 = %.2lf;", root1);
+		return 1,
     }
     //roots not real
     else {
         printf("Roots are not real");
+		return 0;
     }
 } 
 

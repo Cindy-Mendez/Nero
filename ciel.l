@@ -16,9 +16,10 @@ int yylex();
 "calc_vol_sphre"                                    {return S_VOL_TOKEN;}
 "calc_vol_cyl"                                      {return C_VOL_TOKEN;}
 "square_root"										{return S_ROOT_TOKEN;}
-"calc sin"                                          {return SIN_TOKEN;}
-"calc cos"                                          {return COS_TOKEN;}
-"calc tan"                                          {return TAN_TOKEN;}
+"sin"                                               {return SIN_TOKEN;}
+"cos"                                               {return COS_TOKEN;}
+"tan"                                               {return TAN_TOKEN;}
+"find_roots"                                        {renturn ROOTS_TOKEN;}
 "calc_force"                                        {return FORCE_TOKEN;}
 "calc_voltage"                                      {return VOLTAGE_TOKEN;}
 int|float											{yylval.myType = strdup(yytext); return DATA_TYPE_TOKEN;}
