@@ -1,0 +1,14 @@
+print 5;
+float x = 6;
+print x;
+print "Value of sin(1):";
+sin(1);
+print "Value of cos(2):";
+cos(2);
+print "Finding roots of x^2 + 9x + 20";
+float a = 1;
+float b = 9;
+float c = 20;
+find_roots(a, b, c);
+print "Complex Math Equation:";
+square_root((3*5 + 10/2)/4);

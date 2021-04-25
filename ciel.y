@@ -9,8 +9,10 @@ int currentVarCounter;
 char varNames[50][50];
 float varValues[50];
 char varTypes[50][50];
+
 float findValue(char* myString);
 int getVarIndex(char* aVar);
+float findRoots(float a, float b, float c);
 float pi = 3.14159265359;
 %}
 
@@ -20,9 +22,10 @@ float pi = 3.14159265359;
 			float fl; 
 			char* myString; 
 			char* myType;
+			char* stringText;
 		} 
 
-%start LINE
+%start STATEMENT
 %token PRINT_TOKEN
 %token EXIT_TOKEN
 %token T_AREA_TOKEN
@@ -39,16 +42,19 @@ float pi = 3.14159265359;
 %token ROOTS_TOKEN
 %token FORCE_TOKEN
 %token VOLTAGE_TOKEN
+%token <stringText> STRING_TOKEN
 %token <num> INT_TOKEN
 %token <fl> FLOAT_TOKEN
 %token <myString> VAR_TOKEN
 %token <myType> DATA_TYPE_TOKEN
 
+//Assign precedence, from lowest precedence to highest
 %left  '+' '-'
 %left  '*' '/'
 %left  '^'
 
-%type <myString> ASSIGNMENT LINE
+//Types of non-terminal Tokens
+%type <myString> ASSIGNMENT STATEMENT
 %type <fl> EXPR TERM 
 
 %%
@@ -56,13 +62,17 @@ float pi = 3.14159265359;
 //GRAMMAR//
 /* descriptions of expected inputs     corresponding actions (in C) */
 
-LINE    : ASSIGNMENT ';'			{;}
-		| EXIT_TOKEN ';'			{exit(EXIT_SUCCESS);}
-		| PRINT_TOKEN EXPR ';'		{printf("printing %f\n", $2);}
-		| LINE ASSIGNMENT ';'		{;}
-		| LINE PRINT_TOKEN EXPR ';'	{printf("printing %f\n", $3);}
-		| LINE EXIT_TOKEN ';'		{exit(EXIT_SUCCESS);}
-        ;
+STATEMENT    	: ASSIGNMENT ';'								{;}
+				| EXIT_TOKEN ';'								{exit(EXIT_SUCCESS);}
+				| PRINT_TOKEN EXPR ';'							{printf("%.2f\n", $2);}
+				| PRINT_TOKEN STRING_TOKEN ';'					{printf("%s\n", $2);}
+				| EXPR ';'										{printf("%.2f\n", $1);}
+				| STATEMENT ASSIGNMENT ';'						{;}
+				| STATEMENT EXIT_TOKEN ';'						{exit(EXIT_SUCCESS);}
+				| STATEMENT PRINT_TOKEN EXPR ';'				{printf("%.2f\n", $3);}
+				| STATEMENT PRINT_TOKEN STRING_TOKEN ';'		{printf("%s\n", $3);}
+				| STATEMENT EXPR ';' 							{printf("%.2f\n", $2);}
+		        ;
 
 ASSIGNMENT : DATA_TYPE_TOKEN VAR_TOKEN '=' EXPR          {
 														    //Using the strcpy function to copy the
@@ -107,12 +117,12 @@ EXPR   	: TERM                  							{$$ = $1;}
 		| C_CIRC_TOKEN '(' EXPR ')'							{$$ = 2.0 * pi * $3;}
 	    | S_ROOT_TOKEN '(' EXPR ')'  						{$$ = sqrt($3);}
 		| R_VOL_TOKEN '(' EXPR ',' EXPR ',' EXPR ')'		{$$ = $3 * $5 * $7;}
-		| S_VOL_TOKEN '(' EXPR ')'							{$$ = (4/3) * pi * pow($3, 3.0);}
+		| S_VOL_TOKEN '(' EXPR ')'							{$$ = (4.0/3.0) * pi * pow($3, 3.0);}
 		| C_VOL_TOKEN '(' EXPR ',' EXPR ')'					{$$ = pi * pow($3, 2.0) * $5;}
 		| SIN_TOKEN '(' EXPR ')'							{$$ = sin($3);}
 		| COS_TOKEN '(' EXPR ')'							{$$ = cos($3);}
 		| TAN_TOKEN '(' EXPR ')'							{$$ = tan($3);}
-		| ROOTS_TOKEN '(' EXPR ',' EXPR ',' EXPR ')'		{$$ = find_roots($3, $5, $7);}
+		| ROOTS_TOKEN '(' EXPR ',' EXPR ',' EXPR ')'		{$$ = findRoots($3, $5, $7);}
 		| FORCE_TOKEN '(' EXPR ',' EXPR ')'					{$$ = $3 * $5;}
 		| VOLTAGE_TOKEN '(' EXPR ',' EXPR ')'				{$$ = $3 * $5;}
 
@@ -163,37 +173,38 @@ int getVarIndex(char* aVar)
 	}
 	return -1;
 }
-
-//Main
-int main (void) 
-{
-
-	currentVarCounter = 0;
-	return yyparse ( );
-}
-
 //Function to calculate the quadratic roots
-float find_roots(float a, float b, float c) {
+float findRoots(float a, float b, float c) {
+	float rootOne, rootTwo;
     float discriminant = b * b - 4 * a * c;
     // condition for real and different roots
     if (discriminant > 0) {
-        float root1 = (-b + sqrt(discriminant)) / (2 * a);
-        float root2 = (-b - sqrt(discriminant)) / (2 * a);
-        printf("root1 = %.2lf and root2 = %.2lf", root1, root2);
+        float rootOne = (-b + sqrt(discriminant)) / (2 * a);
+        float rootTwo = (-b - sqrt(discriminant)) / (2 * a);
+        printf("First Root = %.2f and Second Root = %.2f\n", rootOne, rootTwo);
+        printf("Amount of roots: ");
 		return 2;
     }
     // condition for real and equal roots
     else if (discriminant == 0) {
-        float root1 = root2 = -b / (2 * a);
-        printf("root1 = root2 = %.2lf;", root1);
-		return 1,
+        float rootOne = -b / (2 * a);
+        printf("First Root = Second Root = %.2f\n", rootOne);
+        ("Amount of roots: ");
+		return 1;
     }
-    //roots not real
+    //roots are not real
     else {
-        printf("Roots are not real");
+        printf("Roots are not real!\n");
+        ("Amount of roots: ");
 		return 0;
     }
 } 
+//Main
+int main (void) 
+{
+	currentVarCounter = 0;
+	return yyparse ( );
+}
 
 //Function to throw errors
 void yyerror (char *s) {fprintf (stderr, "%s\n", s);} 
