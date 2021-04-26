@@ -33,9 +33,9 @@ print x;
     * Mathematical expressions in parenthesis: ```float g = (3 + 5) * (4 + 5.2);```
     * Elaborate mathematical expressions: ```float h = 3^2 + 5 + (3/2.5) - 4;```
 
-Now for the main feature of our programming language, will have several functions that the users will be able to use for their daily science activities. The functions are the following:
-Calculate the area of a triangle. Given a base and a height, the function will return the area of the wanted triangle.
-float calc_tri_area(float base, float height);
+* Now for the main feature of our programming language, we will have several functions that the users will be able to use for their daily science activities. The functions are the following:
+    * Calculate the area of a triangle. Given a base and a height, the function will return the area of the wanted triangle.
+         * float calc_tri_area(float base, float height);
 Calculate the area of a rectangle. Given the length and width of a rectangle, the program will calculate the area.
 float calc_rect_area(float length, float width);
 Calculate the area of a circle. Given the radius of the circle, the program will calculate the area of a circle.
