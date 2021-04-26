@@ -67,7 +67,7 @@
 
 void yyerror (char *s);
 int yylex();
-#include <stdio.h>     /* C declarations used in actions */
+#include <stdio.h>     
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -169,7 +169,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 387 of yacc.c  */
-#line 19 "nero.y"
+#line 22 "nero.y"
 
 			//digits: 0, 3, 5, 7....
 			int num; 
@@ -179,7 +179,7 @@ typedef union YYSTYPE
 			char* myString; 
 			//varTypes: int o float
 			char* myType;
-			//stringsToPrint "hello world", "my name is Cindy"...
+			//stringsToPrint: "hello world", "my name is Cindy"...
 			char* stringText;
 		
 
@@ -520,10 +520,10 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    69,    69,    70,    71,    72,    73,    74,    75,    76,
-      77,    78,    81,   104,   120,   121,   122,   123,   124,   125,
-     126,   127,   128,   129,   130,   131,   132,   133,   134,   135,
-     136,   137,   138,   139,   140,   144,   145,   155
+       0,    75,    75,    76,    77,    78,    79,    83,    84,    85,
+      86,    87,    90,   115,   131,   132,   133,   134,   135,   136,
+     137,   138,   139,   140,   141,   142,   143,   144,   145,   146,
+     147,   148,   149,   150,   151,   155,   156,   169
 };
 #endif
 
@@ -1543,85 +1543,90 @@ yyreduce:
     {
         case 2:
 /* Line 1792 of yacc.c  */
-#line 69 "nero.y"
+#line 75 "nero.y"
     {;}
     break;
 
   case 3:
 /* Line 1792 of yacc.c  */
-#line 70 "nero.y"
+#line 76 "nero.y"
     {exit(0);}
     break;
 
   case 4:
 /* Line 1792 of yacc.c  */
-#line 71 "nero.y"
+#line 77 "nero.y"
     {printf("%.2f\n", (yyvsp[(2) - (3)].fl));}
     break;
 
   case 5:
 /* Line 1792 of yacc.c  */
-#line 72 "nero.y"
+#line 78 "nero.y"
     {printf("%s\n", (yyvsp[(2) - (3)].stringText));}
     break;
 
   case 6:
 /* Line 1792 of yacc.c  */
-#line 73 "nero.y"
-    {printf("%.2f\n", (yyvsp[(1) - (2)].fl));}
+#line 79 "nero.y"
+    {	//Con esto el programa es mas simple y puedo escribir sin(5) 
+																	//en el cmd y obtener la respuesta sin tener que escribir print 
+																	printf("%.2f\n", (yyvsp[(1) - (2)].fl));
+																}
     break;
 
   case 7:
 /* Line 1792 of yacc.c  */
-#line 74 "nero.y"
+#line 83 "nero.y"
     {;}
     break;
 
   case 8:
 /* Line 1792 of yacc.c  */
-#line 75 "nero.y"
+#line 84 "nero.y"
     {exit(0);}
     break;
 
   case 9:
 /* Line 1792 of yacc.c  */
-#line 76 "nero.y"
+#line 85 "nero.y"
     {printf("%.2f\n", (yyvsp[(3) - (4)].fl));}
     break;
 
   case 10:
 /* Line 1792 of yacc.c  */
-#line 77 "nero.y"
+#line 86 "nero.y"
     {printf("%s\n", (yyvsp[(3) - (4)].stringText));}
     break;
 
   case 11:
 /* Line 1792 of yacc.c  */
-#line 78 "nero.y"
+#line 87 "nero.y"
     {printf("%.2f\n", (yyvsp[(2) - (3)].fl));}
     break;
 
   case 12:
 /* Line 1792 of yacc.c  */
-#line 81 "nero.y"
+#line 90 "nero.y"
     {
 															int varIndex = getVarIndex((yyvsp[(2) - (4)].myString));
 															if(varIndex == -1)
 															{
-																//Using the strcpy function to copy the
-															    //value of VAR_TOKEN in the varNames array
+																//Uso la funcion strcpy para copiar el
+																//valor de VAR_TOKEN en el arreglo varNames.
 																strcpy(varNames[currentVarCounter], (yyvsp[(2) - (4)].myString));
-																//Copying the value of exp into our
-																//varValues array
+																//Copio el valor de la expresion en el arreglo varValues
 	           	                         						varValues[currentVarCounter] = (yyvsp[(4) - (4)].fl);
-	           	                         						//Using the strcpy function to copy the
-															    //value of DATA_TYPE in the varTypes array
+																//Uso la funcion strcpy para copiar el
+																//valor de DATA_TYPE en el arreglo varTypes
 	           	                         						strcpy(varTypes[currentVarCounter], (yyvsp[(1) - (4)].myType));
-	           	                         						//Adding one to our var counter
+	           	                         						//Le anado 1 al var counter
 	                                     						currentVarCounter++;
+																//Ex. DATA_TYPE_TOKEN = int, VAR_TOKEN = x, EXPR = 5
 															}
 															else
 															{
+																//Si la variable que el usuario entro ya estaba
+																//definida me da error
 																yyerror("Var already exists!");
 			           											exit(0);
 															}												    
@@ -1630,17 +1635,17 @@ yyreduce:
 
   case 13:
 /* Line 1792 of yacc.c  */
-#line 104 "nero.y"
+#line 115 "nero.y"
     {
-	        												//Looks for the index where the var is stored
+	        												//Busca el indice en donde la variable esta almacenada
 	           												int varIndex = getVarIndex((yyvsp[(1) - (3)].myString));
-	           												//If its not found then it throws an error
+	           												//Si no lo encuentra me da un error
 			           										if(varIndex == -1)
 			           										{
 			           											yyerror("Var hasn't been initialized!");
 			           											exit(0);
 			           										}
-			           										//If its found then the value of the var gets updated
+															//Si lo encuentra entonces el valor de la variable se reasigna
 			           										else
 			           										{
 			           											varValues[varIndex] = (yyvsp[(3) - (3)].fl);
@@ -1650,140 +1655,143 @@ yyreduce:
 
   case 14:
 /* Line 1792 of yacc.c  */
-#line 120 "nero.y"
+#line 131 "nero.y"
     {(yyval.fl) = (yyvsp[(1) - (1)].fl);}
     break;
 
   case 15:
 /* Line 1792 of yacc.c  */
-#line 121 "nero.y"
+#line 132 "nero.y"
     {(yyval.fl) = (yyvsp[(1) - (3)].fl) + (yyvsp[(3) - (3)].fl);}
     break;
 
   case 16:
 /* Line 1792 of yacc.c  */
-#line 122 "nero.y"
+#line 133 "nero.y"
     {(yyval.fl) = (yyvsp[(1) - (3)].fl) - (yyvsp[(3) - (3)].fl);}
     break;
 
   case 17:
 /* Line 1792 of yacc.c  */
-#line 123 "nero.y"
+#line 134 "nero.y"
     {(yyval.fl) = (yyvsp[(1) - (3)].fl) * (yyvsp[(3) - (3)].fl);}
     break;
 
   case 18:
 /* Line 1792 of yacc.c  */
-#line 124 "nero.y"
+#line 135 "nero.y"
     {(yyval.fl) = (yyvsp[(1) - (3)].fl) / (yyvsp[(3) - (3)].fl);}
     break;
 
   case 19:
 /* Line 1792 of yacc.c  */
-#line 125 "nero.y"
+#line 136 "nero.y"
     {(yyval.fl) = pow((yyvsp[(1) - (3)].fl), (yyvsp[(3) - (3)].fl));}
     break;
 
   case 20:
 /* Line 1792 of yacc.c  */
-#line 126 "nero.y"
+#line 137 "nero.y"
     {(yyval.fl) = (yyvsp[(2) - (3)].fl);}
     break;
 
   case 21:
 /* Line 1792 of yacc.c  */
-#line 127 "nero.y"
+#line 138 "nero.y"
     {(yyval.fl) = ((yyvsp[(3) - (6)].fl) * (yyvsp[(5) - (6)].fl)) / 2.0;}
     break;
 
   case 22:
 /* Line 1792 of yacc.c  */
-#line 128 "nero.y"
+#line 139 "nero.y"
     {(yyval.fl) = (yyvsp[(3) - (6)].fl) * (yyvsp[(5) - (6)].fl);}
     break;
 
   case 23:
 /* Line 1792 of yacc.c  */
-#line 129 "nero.y"
+#line 140 "nero.y"
     {(yyval.fl) = pi * pow((yyvsp[(3) - (4)].fl), 2.0);}
     break;
 
   case 24:
 /* Line 1792 of yacc.c  */
-#line 130 "nero.y"
+#line 141 "nero.y"
     {(yyval.fl) = 2.0 * pi * (yyvsp[(3) - (4)].fl);}
     break;
 
   case 25:
 /* Line 1792 of yacc.c  */
-#line 131 "nero.y"
+#line 142 "nero.y"
     {(yyval.fl) = sqrt((yyvsp[(3) - (4)].fl));}
     break;
 
   case 26:
 /* Line 1792 of yacc.c  */
-#line 132 "nero.y"
+#line 143 "nero.y"
     {(yyval.fl) = (yyvsp[(3) - (8)].fl) * (yyvsp[(5) - (8)].fl) * (yyvsp[(7) - (8)].fl);}
     break;
 
   case 27:
 /* Line 1792 of yacc.c  */
-#line 133 "nero.y"
+#line 144 "nero.y"
     {(yyval.fl) = (4.0/3.0) * pi * pow((yyvsp[(3) - (4)].fl), 3.0);}
     break;
 
   case 28:
 /* Line 1792 of yacc.c  */
-#line 134 "nero.y"
+#line 145 "nero.y"
     {(yyval.fl) = pi * pow((yyvsp[(3) - (6)].fl), 2.0) * (yyvsp[(5) - (6)].fl);}
     break;
 
   case 29:
 /* Line 1792 of yacc.c  */
-#line 135 "nero.y"
+#line 146 "nero.y"
     {(yyval.fl) = sin((yyvsp[(3) - (4)].fl));}
     break;
 
   case 30:
 /* Line 1792 of yacc.c  */
-#line 136 "nero.y"
+#line 147 "nero.y"
     {(yyval.fl) = cos((yyvsp[(3) - (4)].fl));}
     break;
 
   case 31:
 /* Line 1792 of yacc.c  */
-#line 137 "nero.y"
+#line 148 "nero.y"
     {(yyval.fl) = tan((yyvsp[(3) - (4)].fl));}
     break;
 
   case 32:
 /* Line 1792 of yacc.c  */
-#line 138 "nero.y"
+#line 149 "nero.y"
     {(yyval.fl) = findRoots((yyvsp[(3) - (8)].fl), (yyvsp[(5) - (8)].fl), (yyvsp[(7) - (8)].fl));}
     break;
 
   case 33:
 /* Line 1792 of yacc.c  */
-#line 139 "nero.y"
+#line 150 "nero.y"
     {(yyval.fl) = (yyvsp[(3) - (6)].fl) * (yyvsp[(5) - (6)].fl);}
     break;
 
   case 34:
 /* Line 1792 of yacc.c  */
-#line 140 "nero.y"
+#line 151 "nero.y"
     {(yyval.fl) = (yyvsp[(3) - (6)].fl) * (yyvsp[(5) - (6)].fl);}
     break;
 
   case 35:
 /* Line 1792 of yacc.c  */
-#line 144 "nero.y"
+#line 155 "nero.y"
     {(yyval.fl) = (float) (yyvsp[(1) - (1)].num);}
     break;
 
   case 36:
 /* Line 1792 of yacc.c  */
-#line 145 "nero.y"
+#line 156 "nero.y"
     {	
+										//Busca el indice de la variable y si existe me da
+										//el valor de la variable en la expresion
+										//Si la variable no existe me da error
 										int varIndex = getVarIndex((yyvsp[(1) - (1)].myString));
 								 		if(varIndex == -1)
 								 		{
@@ -1797,13 +1805,13 @@ yyreduce:
 
   case 37:
 /* Line 1792 of yacc.c  */
-#line 155 "nero.y"
+#line 169 "nero.y"
     {(yyval.fl) = (yyvsp[(1) - (1)].fl);}
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 1807 "y.tab.c"
+#line 1815 "y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2035,12 +2043,11 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 158 "nero.y"
+#line 172 "nero.y"
                      
 /* C code */
 
-//Function to get the index of where a variable is stored in the
-//varNames array
+//Funcion para obtener el indice en donde la variable es almacenada en el arreglo varNames
 int getVarIndex(char* aVar)
 {
 	int i;
@@ -2053,34 +2060,34 @@ int getVarIndex(char* aVar)
 	}
 	return -1;
 }
-//Function to calculate the quadratic roots
+//Funcion para calcular la formula cuadratica
 float findRoots(float a, float b, float c) {
 	float rootOne, rootTwo;
     float discriminant = b * b - 4 * a * c;
-    // condition for real and different roots
+    // Condicion para raices reales y diferentes
     if (discriminant > 0) {
         float rootOne = (-b + sqrt(discriminant)) / (2 * a);
         float rootTwo = (-b - sqrt(discriminant)) / (2 * a);
         printf("First Root = %.2f and Second Root = %.2f\n", rootOne, rootTwo);
-        printf("Amount of roots: ");
+        printf("Amount of real roots: ");
 		return 2;
     }
-    // condition for real and equal roots
+    // Condicion para raices reales y iguales
     else if (discriminant == 0) {
         float rootOne = -b / (2 * a);
         printf("First Root = Second Root = %.2f\n", rootOne);
-        ("Amount of roots: ");
+        printf("Amount of real roots: ");
 		return 1;
     }
-    //roots are not real
+    // COndicion cuando raices no son reales
     else {
         printf("Roots are not real!\n");
-        ("Amount of roots: ");
+        printf("Amount of real roots: ");
 		return 0;
     }
 } 
 
-//Function to throw errors
+//Funcion para imprimir errores
 void yyerror (char *s) 
 {
 	fprintf (stderr, "%s\n", s);
@@ -2089,6 +2096,9 @@ void yyerror (char *s)
 //Main
 int main (void) 
 {
+	//inicializa el counter que se usa para escribir las 
+	//variables en el programa
 	currentVarCounter = 0;
+	
 	return yyparse ( );
 }

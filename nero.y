@@ -1,7 +1,7 @@
 %{
 void yyerror (char *s);
 int yylex();
-#include <stdio.h>     /* C declarations used in actions */
+#include <stdio.h>     
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -16,6 +16,9 @@ float pi = 3.14159265359;
 %}
 
 /* Yacc/Tokens definitions */
+//La union se utiliza para asignarle tipos a los tokens que se llaman con $ en la gramatica
+//Todas las variables que se accesan con $, necesitan un tipo, o C no va a
+//saber que hacer
 %union {
 			//digits: 0, 3, 5, 7....
 			int num; 
@@ -25,11 +28,11 @@ float pi = 3.14159265359;
 			char* myString; 
 			//varTypes: int o float
 			char* myType;
-			//stringsToPrint "hello world", "my name is Cindy"...
+			//stringsToPrint: "hello world", "my name is Cindy"...
 			char* stringText;
 		} 
 
-%start STATEMENT
+%start STATEMENT //donde comienza la gramatica
 %token PRINT_TOKEN
 %token EXIT_TOKEN
 %token T_AREA_TOKEN
@@ -46,32 +49,38 @@ float pi = 3.14159265359;
 %token ROOTS_TOKEN
 %token FORCE_TOKEN
 %token VOLTAGE_TOKEN
-%token <stringText> STRING_TOKEN
-%token <num> INT_TOKEN
-%token <fl> FLOAT_TOKEN
-%token <myString> VAR_TOKEN
-%token <myType> DATA_TYPE_TOKEN
+%token <stringText> STRING_TOKEN //string type
+%token <num> INT_TOKEN //int type
+%token <fl> FLOAT_TOKEN //float type
+%token <myString> VAR_TOKEN //string type
+%token <myType> DATA_TYPE_TOKEN //string type
 
-//Assign precedence, from lowest precedence to highest
+//Asignacion de presedencia, va de menor a mayor presedencia.
+//Pueden haber muchas expresiones en una misma expresion, por esto necesitamos un orden de presedencia.
 %left  '+' '-'
 %left  '*' '/'
 %left  '^'
 
-//Types of non-terminal Tokens
+//Tipos de non-terminal Tokens.
+//El tipo del statement y el assignment no importa, pero es importante
+//definir que tanto la expresion y el termino es float para
+//asegurar que siempre me devuelva un float.
 %type <myString> STATEMENT ASSIGNMENT 
 %type <fl> EXPR TERM 
 
 %%
 
 //GRAMMAR//
-/* descriptions of expected inputs     corresponding actions (in C) */
 
 STATEMENT    	: ASSIGNMENT ';'								{;}
 				| EXIT_TOKEN ';'								{exit(0);}
 				| PRINT_TOKEN EXPR ';'							{printf("%.2f\n", $2);}
 				| PRINT_TOKEN STRING_TOKEN ';'					{printf("%s\n", $2);}
-				| EXPR ';'										{printf("%.2f\n", $1);}
-				| STATEMENT ASSIGNMENT ';'						{;}
+				| EXPR ';'										{	//Con esto el programa es mas simple y puedo escribir sin(5) 
+																	//en el cmd y obtener la respuesta sin tener que escribir print 
+																	printf("%.2f\n", $1);
+																} 
+				| STATEMENT ASSIGNMENT ';'						{;} //Se usa recursion de statement para poder llamar los statements mas de una vez
 				| STATEMENT EXIT_TOKEN ';'						{exit(0);}
 				| STATEMENT PRINT_TOKEN EXPR ';'				{printf("%.2f\n", $3);}
 				| STATEMENT PRINT_TOKEN STRING_TOKEN ';'		{printf("%s\n", $3);}
@@ -82,35 +91,37 @@ ASSIGNMENT : DATA_TYPE_TOKEN VAR_TOKEN '=' EXPR          {
 															int varIndex = getVarIndex($2);
 															if(varIndex == -1)
 															{
-																//Using the strcpy function to copy the
-															    //value of VAR_TOKEN in the varNames array
+																//Uso la funcion strcpy para copiar el
+																//valor de VAR_TOKEN en el arreglo varNames.
 																strcpy(varNames[currentVarCounter], $2);
-																//Copying the value of exp into our
-																//varValues array
+																//Copio el valor de la expresion en el arreglo varValues
 	           	                         						varValues[currentVarCounter] = $4;
-	           	                         						//Using the strcpy function to copy the
-															    //value of DATA_TYPE in the varTypes array
+																//Uso la funcion strcpy para copiar el
+																//valor de DATA_TYPE en el arreglo varTypes
 	           	                         						strcpy(varTypes[currentVarCounter], $1);
-	           	                         						//Adding one to our var counter
+	           	                         						//Le anado 1 al var counter
 	                                     						currentVarCounter++;
+																//Ex. DATA_TYPE_TOKEN = int, VAR_TOKEN = x, EXPR = 5
 															}
 															else
 															{
+																//Si la variable que el usuario entro ya estaba
+																//definida me da error
 																yyerror("Var already exists!");
 			           											exit(0);
 															}												    
                                      					} 
            
 	        | VAR_TOKEN '=' EXPR                     	{
-	        												//Looks for the index where the var is stored
+	        												//Busca el indice en donde la variable esta almacenada
 	           												int varIndex = getVarIndex($1);
-	           												//If its not found then it throws an error
+	           												//Si no lo encuentra me da un error
 			           										if(varIndex == -1)
 			           										{
 			           											yyerror("Var hasn't been initialized!");
 			           											exit(0);
 			           										}
-			           										//If its found then the value of the var gets updated
+															//Si lo encuentra entonces el valor de la variable se reasigna
 			           										else
 			           										{
 			           											varValues[varIndex] = $3;
@@ -141,8 +152,11 @@ EXPR   	: TERM                  							{$$ = $1;}
 
        	;
 
-TERM   	: INT_TOKEN                	{$$ = (float) $1;}
+TERM   	: INT_TOKEN                	{$$ = (float) $1;} //Para no tener que trabajar con mas de un tipo
 		| VAR_TOKEN					{	
+										//Busca el indice de la variable y si existe me da
+										//el valor de la variable en la expresion
+										//Si la variable no existe me da error
 										int varIndex = getVarIndex($1);
 								 		if(varIndex == -1)
 								 		{
@@ -158,8 +172,7 @@ TERM   	: INT_TOKEN                	{$$ = (float) $1;}
 %%                     
 /* C code */
 
-//Function to get the index of where a variable is stored in the
-//varNames array
+//Funcion para obtener el indice en donde la variable es almacenada en el arreglo varNames
 int getVarIndex(char* aVar)
 {
 	int i;
@@ -172,34 +185,34 @@ int getVarIndex(char* aVar)
 	}
 	return -1;
 }
-//Function to calculate the quadratic roots
+//Funcion para calcular la formula cuadratica
 float findRoots(float a, float b, float c) {
 	float rootOne, rootTwo;
     float discriminant = b * b - 4 * a * c;
-    // condition for real and different roots
+    // Condicion para raices reales y diferentes
     if (discriminant > 0) {
         float rootOne = (-b + sqrt(discriminant)) / (2 * a);
         float rootTwo = (-b - sqrt(discriminant)) / (2 * a);
         printf("First Root = %.2f and Second Root = %.2f\n", rootOne, rootTwo);
-        printf("Amount of roots: ");
+        printf("Amount of real roots: ");
 		return 2;
     }
-    // condition for real and equal roots
+    // Condicion para raices reales y iguales
     else if (discriminant == 0) {
         float rootOne = -b / (2 * a);
         printf("First Root = Second Root = %.2f\n", rootOne);
-        ("Amount of roots: ");
+        printf("Amount of real roots: ");
 		return 1;
     }
-    //roots are not real
+    // COndicion cuando raices no son reales
     else {
         printf("Roots are not real!\n");
-        ("Amount of roots: ");
+        printf("Amount of real roots: ");
 		return 0;
     }
 } 
 
-//Function to throw errors
+//Funcion para imprimir errores
 void yyerror (char *s) 
 {
 	fprintf (stderr, "%s\n", s);
@@ -208,6 +221,9 @@ void yyerror (char *s)
 //Main
 int main (void) 
 {
+	//inicializa el counter que se usa para escribir las 
+	//variables en el programa
 	currentVarCounter = 0;
+	
 	return yyparse ( );
 }

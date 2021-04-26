@@ -32,7 +32,15 @@ int|float											{yylval.myType = strdup(yytext); return DATA_TYPE_TOKEN;}
 .                      								{yyerror ("unexpected character");}
 
 %%
+//Function yywrap is called by lex when input is exhausted. 
+//When the end of the file is reached the return value of yywrap() 
+//is checked. If it is non-zero, scanning terminates 
+//and if it is 0 scanning continues with next input file.
 int yywrap (void) 
 {
 	return 1;
 }
+
+
+
+

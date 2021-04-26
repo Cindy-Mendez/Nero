@@ -98,7 +98,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 19 "nero.y"
+#line 22 "nero.y"
 
 			//digits: 0, 3, 5, 7....
 			int num; 
@@ -108,7 +108,7 @@ typedef union YYSTYPE
 			char* myString; 
 			//varTypes: int o float
 			char* myType;
-			//stringsToPrint "hello world", "my name is Cindy"...
+			//stringsToPrint: "hello world", "my name is Cindy"...
 			char* stringText;
 		
 
