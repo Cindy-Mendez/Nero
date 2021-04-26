@@ -1,12 +1,12 @@
 # Nero
 
-# Introduction
+## Introduction ##
 	The Nero progrogramming language will be a simple, yet typed programming language aimed mostly for young users to expose them to what programming is. A lexer and a parser will be created using Flex and Yacc in C, in order to develop the wanted programming language. The language will be simple, fun, and useful for many science classes that every kid has to go through. The program will have a gamma of functions that will help with the day to day school activities of today’s future and they will be able to do all kinds of mathematical equations inside of it.
 
-# Motivations & Reasons
+## Motivations & Reasons ##
 	There are many young students from seventh through twelfth grade that love using computers, and are interested in learning more about them.The constant use of technology is something that is growing every day more and more. For this reason, the main goal of the Nero programming language is on those students who like the idea of programming and would like to learn the basics of programming. In many schools, there is no presence at all of any programming. With Nero, the plans are to design a simple, useful programming language that will help kids through their science assignments and at the same time expose them to the new world of programming languages. The more programmers we have, the better for our future. 
 
-# Features
+## Features ##
 * One of the most important features of our programming language is that users will have the ability to enter the help command. Once given, the program will list the list of features available in our programming language, including all the functions that the users can use.
 * The programming language will allow users to use either int or float variables. However, for the sake of simplicity and better understanding, the int variables will be converted to float variables. 
 * Users will have the ability to print a string, term or an expression with the print command.
