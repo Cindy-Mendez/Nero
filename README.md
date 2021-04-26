@@ -20,11 +20,11 @@ print x;
 // This would print 10;
 ```
 
-We will allow the following mathematical expressions:
-Addition
-int x = 3 + 6 + 5;
+* We will allow the following mathematical expressions:
+* Addition
+```int x = 3 + 6 + 5;```
 Subtraction
-float y = 4 - 5 - 3;
+```float y = 4 - 5 - 3;```
 Multiplication
 float z = 4 * 3 * 3;
 Division
