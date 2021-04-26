@@ -54,3 +54,6 @@ print x;
          * ```float calc_force(float mass, float acceleration);```
     * Calculate the voltage given a current and a resistance.
          * ```float calc_voltage(float current, float resistance);```
+
+## End-Goal ##
+The main goal of our programming language is to ensure that kids around the world get introduced to programming and see how powerful it can be. Making the programming language simple enough that they feel encouraged to try it out, and do wonderful things with Nero and eventually other more powerful programming languages. We want this world to have more computer scientists/engineers.
