@@ -21,7 +21,7 @@ print x;
 ```
 
 * We will allow the following mathematical expressions:
-* Addition
+    * Addition
 ```int x = 3 + 6 + 5;```
 Subtraction
 ```float y = 4 - 5 - 3;```
