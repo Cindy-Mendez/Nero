@@ -11,14 +11,14 @@
 * The programming language will allow users to use either int or float variables. However, for the sake of simplicity and better understanding, the int variables will be converted to float variables. 
 * Users will have the ability to print a string, term or an expression with the print command.
 * The programming language will store users defined variables, their type and their value. Users will be able to assign and re-assign values and use those variables in any kind of mathematical expressions. For example:
-`code()`
+'''
 int x = 6;
 print x;
 // This would print 6
 x = x + 4;
 print x;
 // This would print 10;
-`code()`
+'''
 
 We will allow the following mathematical expressions:
 Addition
