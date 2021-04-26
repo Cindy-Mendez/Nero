@@ -35,22 +35,22 @@ print x;
 
 * Now for the main feature of our programming language, we will have several functions that the users will be able to use for their daily science activities. The functions are the following:
     * Calculate the area of a triangle. Given a base and a height, the function will return the area of the wanted triangle.
-         * float calc_tri_area(float base, float height);
-Calculate the area of a rectangle. Given the length and width of a rectangle, the program will calculate the area.
-float calc_rect_area(float length, float width);
-Calculate the area of a circle. Given the radius of the circle, the program will calculate the area of a circle.
-float calc_circ_area(float radius);
-Calculate the volume of a rectangle. Given the length, width and height of the rectangle, the program will calculate the volume.
-float calc_vol_rect(float length, float width, float height);
-Calculate the volume of a sphere. Given the radius of a sphere, the program will calculate the volume.
-float calc_vol_sphere(float radius);
-Calculate the volume of a cylinder. Given the radius and height of a cylinder, the program will calculate the volume.
-float calc_vol_cyl(float radius, float height);
-Calculate the roots of a quadratic equation. Given the equation: ax^2 + bx + c = 0, and using those constants, a, b and c, the program will print the real roots, if any and it will return the amount of roots the quadratic equation has.
-float find_roots(float a, float b, float c); 
-Calculate the circumference of a circle. Given the radius, the PL will calculate the circumference of a circle.
-float calc_circ_circum(float radius);
-Calculate the force given mass and acceleration.
-float calc_force(float mass, float acceleration);
-Calculate the voltage given a current and a resistance.
-float calc_voltage(float current, float resistance);
+         * ```float calc_tri_area(float base, float height);```
+    * Calculate the area of a rectangle. Given the length and width of a rectangle, the program will calculate the area.
+         * ```float calc_rect_area(float length, float width);```
+    * Calculate the area of a circle. Given the radius of the circle, the program will calculate the area of a circle.
+         * ```float calc_circ_area(float radius);```
+    * Calculate the volume of a rectangle. Given the length, width and height of the rectangle, the program will calculate the volume.
+         * ```float calc_vol_rect(float length, float width, float height);```
+    * Calculate the volume of a sphere. Given the radius of a sphere, the program will calculate the volume.
+         * ```float calc_vol_sphere(float radius);```
+    * Calculate the volume of a cylinder. Given the radius and height of a cylinder, the program will calculate the volume.
+         * ```float calc_vol_cyl(float radius, float height);```
+    * Calculate the roots of a quadratic equation. Given the equation: ax^2 + bx + c = 0, and using those constants, a, b and c, the program will print the real roots, if any and it will return the amount of roots the quadratic equation has.
+         * ```float find_roots(float a, float b, float c); ```
+    * Calculate the circumference of a circle. Given the radius, the PL will calculate the circumference of a circle.
+         * ```float calc_circ_circum(float radius);```
+    * Calculate the force given mass and acceleration.
+         * ```float calc_force(float mass, float acceleration);```
+    * Calculate the voltage given a current and a resistance.
+         * ```float calc_voltage(float current, float resistance);```
