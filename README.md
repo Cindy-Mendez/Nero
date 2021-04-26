@@ -21,28 +21,17 @@ print x;
 ```
 
 * We will allow the following mathematical expressions:
-    * Addition
-```int x = 3 + 6 + 5;```
-Subtraction
-```float y = 4 - 5 - 3;```
-Multiplication
-float z = 4 * 3 * 3;
-Division
-float a = 4.2 / 3.5;
-Power
-float b = 4^3;
-Square Roots
-float c = square_root(4); 
-Sine
-float d = sin(90);
-Cosine
-float e = cos(0);
-Tangent
-float f = tan(1);
-Mathematical expressions in parenthesis
-float g = (3 + 5) * (4 + 5.2);
-Elaborate mathematical expressions
-float h = 3^2 + 5 + (3/2.5) - 4;
+    * Addition: ```int x = 3 + 6 + 5;```
+    * Subtraction:```float y = 4 - 5 - 3;```
+    * Multiplication: ```float z = 4 * 3 * 3;```
+    * Division: ```float a = 4.2 / 3.5;```
+    * Power: ```float b = 4^3;```
+    * Square Roots: ```float c = square_root(4); ```
+    * Sine: ```float d = sin(90);```
+    * Cosine: ```float e = cos(0);```
+    * Tangent: ```float f = tan(1);```
+    * Mathematical expressions in parenthesis: ```float g = (3 + 5) * (4 + 5.2);```
+    * Elaborate mathematical expressions: ```float h = 3^2 + 5 + (3/2.5) - 4;```
 
 Now for the main feature of our programming language, will have several functions that the users will be able to use for their daily science activities. The functions are the following:
 Calculate the area of a triangle. Given a base and a height, the function will return the area of the wanted triangle.
