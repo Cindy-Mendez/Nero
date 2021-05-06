@@ -48,49 +48,51 @@ extern int yydebug;
    enum yytokentype {
      PRINT_TOKEN = 258,
      EXIT_TOKEN = 259,
-     T_AREA_TOKEN = 260,
-     R_AREA_TOKEN = 261,
-     C_AREA_TOKEN = 262,
-     C_CIRC_TOKEN = 263,
-     S_ROOT_TOKEN = 264,
-     R_VOL_TOKEN = 265,
-     S_VOL_TOKEN = 266,
-     C_VOL_TOKEN = 267,
-     SIN_TOKEN = 268,
-     COS_TOKEN = 269,
-     TAN_TOKEN = 270,
-     ROOTS_TOKEN = 271,
-     FORCE_TOKEN = 272,
-     VOLTAGE_TOKEN = 273,
-     STRING_TOKEN = 274,
-     INT_TOKEN = 275,
-     FLOAT_TOKEN = 276,
-     VAR_TOKEN = 277,
-     DATA_TYPE_TOKEN = 278
+     HELP_TOKEN = 260,
+     T_AREA_TOKEN = 261,
+     R_AREA_TOKEN = 262,
+     C_AREA_TOKEN = 263,
+     C_CIRC_TOKEN = 264,
+     S_ROOT_TOKEN = 265,
+     R_VOL_TOKEN = 266,
+     S_VOL_TOKEN = 267,
+     C_VOL_TOKEN = 268,
+     SIN_TOKEN = 269,
+     COS_TOKEN = 270,
+     TAN_TOKEN = 271,
+     ROOTS_TOKEN = 272,
+     FORCE_TOKEN = 273,
+     VOLTAGE_TOKEN = 274,
+     STRING_TOKEN = 275,
+     INT_TOKEN = 276,
+     FLOAT_TOKEN = 277,
+     VAR_TOKEN = 278,
+     DATA_TYPE_TOKEN = 279
    };
 #endif
 /* Tokens.  */
 #define PRINT_TOKEN 258
 #define EXIT_TOKEN 259
-#define T_AREA_TOKEN 260
-#define R_AREA_TOKEN 261
-#define C_AREA_TOKEN 262
-#define C_CIRC_TOKEN 263
-#define S_ROOT_TOKEN 264
-#define R_VOL_TOKEN 265
-#define S_VOL_TOKEN 266
-#define C_VOL_TOKEN 267
-#define SIN_TOKEN 268
-#define COS_TOKEN 269
-#define TAN_TOKEN 270
-#define ROOTS_TOKEN 271
-#define FORCE_TOKEN 272
-#define VOLTAGE_TOKEN 273
-#define STRING_TOKEN 274
-#define INT_TOKEN 275
-#define FLOAT_TOKEN 276
-#define VAR_TOKEN 277
-#define DATA_TYPE_TOKEN 278
+#define HELP_TOKEN 260
+#define T_AREA_TOKEN 261
+#define R_AREA_TOKEN 262
+#define C_AREA_TOKEN 263
+#define C_CIRC_TOKEN 264
+#define S_ROOT_TOKEN 265
+#define R_VOL_TOKEN 266
+#define S_VOL_TOKEN 267
+#define C_VOL_TOKEN 268
+#define SIN_TOKEN 269
+#define COS_TOKEN 270
+#define TAN_TOKEN 271
+#define ROOTS_TOKEN 272
+#define FORCE_TOKEN 273
+#define VOLTAGE_TOKEN 274
+#define STRING_TOKEN 275
+#define INT_TOKEN 276
+#define FLOAT_TOKEN 277
+#define VAR_TOKEN 278
+#define DATA_TYPE_TOKEN 279
 
 
 
@@ -98,7 +100,7 @@ extern int yydebug;
 typedef union YYSTYPE
 {
 /* Line 2058 of yacc.c  */
-#line 22 "nero.y"
+#line 24 "nero.y"
 
 			//digits: 0, 3, 5, 7....
 			int num; 
@@ -113,7 +115,7 @@ typedef union YYSTYPE
 		
 
 /* Line 2058 of yacc.c  */
-#line 117 "y.tab.h"
+#line 119 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

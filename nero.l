@@ -19,13 +19,14 @@ int yylex();
 "sin"                                               {return SIN_TOKEN;}
 "cos"                                               {return COS_TOKEN;}
 "tan"                                               {return TAN_TOKEN;}
+"help"												{return HELP_TOKEN;}
 "find_roots"                                        {return ROOTS_TOKEN;}
 "calc_force"                                        {return FORCE_TOKEN;}
 "calc_voltage"                                      {return VOLTAGE_TOKEN;}
 int|float											{yylval.myType = strdup(yytext); return DATA_TYPE_TOKEN;}
 [a-zA-Z]*			   								{yylval.myString = strdup(yytext); return VAR_TOKEN;}
-[0-9]+												{yylval.num = atoi(strdup(yytext)); return INT_TOKEN;}
-[0-9]+[.][0-9]+						 				{yylval.fl = atof(strdup(yytext)); return FLOAT_TOKEN;}
+-?[0-9]+												{yylval.num = atoi(strdup(yytext)); return INT_TOKEN;}
+-?[0-9]+[.][0-9]+						 				{yylval.fl = atof(strdup(yytext)); return FLOAT_TOKEN;}
 \"([^\\\"]|\\.)*\"									{yylval.stringText = strdup(yytext); return STRING_TOKEN;}
 [ \t\n]                								;
 [-+*/=;(),^]           	   							{return yytext[0];}

@@ -12,6 +12,8 @@ char varTypes[50][50];
 
 int getVarIndex(char* aVar);
 float findRoots(float a, float b, float c);
+void helptext();
+char * getAllButFirstAndLast(char *input);
 float pi = 3.14159265359;
 %}
 
@@ -35,6 +37,7 @@ float pi = 3.14159265359;
 %start STATEMENT //donde comienza la gramatica
 %token PRINT_TOKEN
 %token EXIT_TOKEN
+%token HELP_TOKEN
 %token T_AREA_TOKEN
 %token R_AREA_TOKEN
 %token C_AREA_TOKEN
@@ -74,14 +77,16 @@ float pi = 3.14159265359;
 
 STATEMENT    	: ASSIGNMENT ';'								{;}
 				| EXIT_TOKEN ';'								{exit(0);}
+				| HELP_TOKEN ';'								{helptext();}
 				| PRINT_TOKEN EXPR ';'							{printf("%.2f\n", $2);}
-				| PRINT_TOKEN STRING_TOKEN ';'					{printf("%s\n", $2);}
+				| PRINT_TOKEN STRING_TOKEN ';'					{printf("%s\n", getAllButFirstAndLast($2));}
 				| EXPR ';'										{	//Con esto el programa es mas simple y puedo escribir sin(5) 
 																	//en el cmd y obtener la respuesta sin tener que escribir print 
 																	printf("%.2f\n", $1);
 																} 
 				| STATEMENT ASSIGNMENT ';'						{;} //Se usa recursion de statement para poder llamar los statements mas de una vez
 				| STATEMENT EXIT_TOKEN ';'						{exit(0);}
+				| STATEMENT HELP_TOKEN ';'						{helptext();}
 				| STATEMENT PRINT_TOKEN EXPR ';'				{printf("%.2f\n", $3);}
 				| STATEMENT PRINT_TOKEN STRING_TOKEN ';'		{printf("%s\n", $3);}
 				| STATEMENT EXPR ';' 							{printf("%.2f\n", $2);}
@@ -217,6 +222,44 @@ void yyerror (char *s)
 {
 	fprintf (stderr, "%s\n", s);
 } 
+
+//Funcion para imprimir todo lo que esta en el help file
+void helptext()
+{
+    FILE *fptr;
+    char text;
+  
+    // Open file
+    fptr = fopen("help.txt", "r");
+    if (fptr == NULL)
+    {
+        printf("Cannot open file \n");
+        exit(0);
+    }
+  
+    // Read contents from file
+    text = fgetc(fptr);
+    while (text != EOF)
+    {
+        printf ("%c", text);
+        text = fgetc(fptr);
+    }
+  
+    fclose(fptr);
+}
+
+//Funcion para remover el primer y el ultimo caracter
+//de un string. Lo usamos para remover las doble
+//comillas de un string.
+char * getAllButFirstAndLast(char *input)
+{
+  int len = strlen(input); 
+  if(len > 0)
+    input++;//Go past the first char
+  if(len > 1)
+    input[len - 2] = '\0';//Replace the last char with a null termination
+  return input;
+}
 
 //Main
 int main (void) 
