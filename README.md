@@ -61,7 +61,7 @@ print x;
 * YACC/Bison
 
 ## How to install and run Nero ##
-We can use the app Flex Windows (Yacc and Lex) to compile the programming language. Alternatively, a makefile can be used to compile the code.
+* We can use the app Flex Windows (Yacc and Lex) to compile the programming language. Alternatively, a makefile can be used to compile the code.
 ```
 all: nero
 
@@ -78,7 +78,7 @@ clean:
     rm nero nero.tab.c lex.yy.c nero.tab.h nero.output
 ```
 
-Once the executable has been created, then we can just call it through the command prompt: nero and start typing code, or using the nero < <filename> call in Windows or ./ciel <filename> in Linux environments to run a piece of code in a text file. 
+* Once the executable has been created, then we can just call it through the command prompt: nero and start typing code, or using the nero < <filename> call in Windows or ./ciel <filename> in Linux environments to run a piece of code in a text file. 
 
 ## Challenges and what's next ##
 * Creating a programming language from nothing was an extremely challenging task, as I had no idea where to start, but after being suggested to use Flex and Bison, it was slightly easier. The idea of having programming blocks and functions is still something that's complex, and I would like to expand my program to capture those.  With that said, overall I feel extremely successful with this project, as completely new technologies were learned to be able to accomplish everything that we wanted to accomplish. I sincerely think that a simple programming language like this one can help a lot of early students to enjoy what programming is, and all the benefits that it can give them. See how powerful they are, and how many amazing things they can make with it. For next steps, if I had the chance, I would demo this to a group of young students, and get their input and talk about what new functions and features they would like to have in Nero.
