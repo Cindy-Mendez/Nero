@@ -88,7 +88,7 @@ STATEMENT    	: ASSIGNMENT ';'								{;}
 				| STATEMENT EXIT_TOKEN ';'						{exit(0);}
 				| STATEMENT HELP_TOKEN ';'						{helptext();}
 				| STATEMENT PRINT_TOKEN EXPR ';'				{printf("%.2f\n", $3);}
-				| STATEMENT PRINT_TOKEN STRING_TOKEN ';'		{printf("%s\n", $3);}
+				| STATEMENT PRINT_TOKEN STRING_TOKEN ';'		{printf("%s\n", getAllButFirstAndLast($3));}
 				| STATEMENT EXPR ';' 							{printf("%.2f\n", $2);}
 		        ;
 

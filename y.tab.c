@@ -1613,7 +1613,7 @@ yyreduce:
   case 12:
 /* Line 1792 of yacc.c  */
 #line 91 "nero.y"
-    {printf("%s\n", (yyvsp[(3) - (4)].stringText));}
+    {printf("%s\n", getAllButFirstAndLast((yyvsp[(3) - (4)].stringText)));}
     break;
 
   case 13:
