@@ -60,7 +60,7 @@ print x;
 * Lex/Flex
 * YACC/Bison
 
-## How to install Nero ##
+## How to install and run Nero ##
 We can use the app Flex Windows (Yacc and Lex) to compile the programming language. Alternatively, a makefile can be used to compile the code.
 ```
 all: nero
